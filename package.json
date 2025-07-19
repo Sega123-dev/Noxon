@@ -1,7 +1,19 @@
 {
   "name": "noxon",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "description": "Better JSON parsing and manipulation in TypeScript.",
   "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist"],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -13,5 +25,12 @@
   },
   "dependencies": {
     "highlight.js": "^11.11.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sega123-dev/Noxon"
+  },
+  "keywords": ["json", "typescript", "parser", "formatter", "noxon"],
+  "author": "Your Name",
+  "license": "MIT"
 }
