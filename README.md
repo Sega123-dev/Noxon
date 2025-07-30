@@ -2,7 +2,7 @@
 
 Is a TypeScript-based library that provides advanced JSON manipulation features like formatting, whitespace filling, key editing (even nested), parsing, merging, and secure data handling. It’s designed to help developers display and manage JSON data both in the browser with optional syntax highlighting and validation. The goal is to make working with JSON easier, more visual, and safer—especially when dealing with complex or sensitive data.**It is also optimized and lightweight**
 
-## Core features
+## ⚙️Core features
 
 - ✅ Format and beautify JSON
 - 🔄 Whitespace filler for minimal JSON
@@ -21,18 +21,18 @@ All you need is:
 npm install noxon
 ```
 
-## Support for syntax Highlighting
+## 🎨Support for syntax Highlighting
 
 - Vanilla Javascript
 - Typescript
 - React
 - XML
 
-## Versions
+## 📆Versions
 
 This library is currently in active development and will be released soon!
 
-## Contributions
+## 🤝Contributions
 
 Contributions, bug reports, and feature requests are welcome!
 Please open an issue or submit a pull request.
