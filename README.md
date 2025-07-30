@@ -30,8 +30,9 @@ npm install noxon
 
 ## Versions
 
-Currently this library is in stage of development,it will be done soon!
+This library is currently in active development and will be released soon!
 
 ## Contributions
 
-Contributions, bug reports, and feature requests are welcome! Please open an issue or pull request.
+Contributions, bug reports, and feature requests are welcome!
+Please open an issue or submit a pull request.
