@@ -1,13 +1,14 @@
-import { encrypt, getPKBasic } from "../secure/security";
+import { encrypt, getPKBasic, getPKAdvanced } from "../secure/security";
 
 type Security = "strip" | "encrypt" | "none";
-
+type SecurityLevel = "basic" | "advanced";
 interface AddKeyParameters {
   object: Record<string, any> | undefined;
   newKey: string;
   keyValue: any;
   nested?: string;
   security?: Security;
+  securityLevel?: SecurityLevel;
 }
 
 interface RemoveKeyParameters {
@@ -15,6 +16,7 @@ interface RemoveKeyParameters {
   key: string;
   nested?: string;
   security?: Security;
+  securityLevel?: SecurityLevel;
 }
 
 interface ModifyKeyParameters {
@@ -23,6 +25,7 @@ interface ModifyKeyParameters {
   newValue: any;
   nested?: string;
   security?: Security;
+  securityLevel?: SecurityLevel;
 }
 
 interface RenameKeyParameters {
@@ -31,6 +34,7 @@ interface RenameKeyParameters {
   newKey: string;
   nested?: string;
   security?: Security;
+  securityLevel?: SecurityLevel;
 }
 
 export const addKey = async ({
@@ -39,17 +43,21 @@ export const addKey = async ({
   keyValue,
   nested,
   security = "encrypt",
+  securityLevel = "basic",
 }: AddKeyParameters): Promise<Object | undefined> => {
   const PKBasic = getPKBasic();
+  const PKAdvanced = getPKAdvanced();
+
+  const selectedSecurityLevel: Set<string> =
+    securityLevel === "advanced" ? PKAdvanced : PKBasic;
+
   try {
     if (
       object === undefined ||
       newKey === undefined ||
       keyValue === undefined
     ) {
-      console.warn(
-        "Warning: One or couple of provided values are not provided"
-      );
+      console.warn("Warning: One or couple of values are not provided");
       return;
     }
     if (object === null || typeof object !== "object")
@@ -61,11 +69,11 @@ export const addKey = async ({
 
     if (!nested) {
       if (security === "strip") {
-        PKBasic.forEach((pkKey) => {
+        selectedSecurityLevel.forEach((pkKey) => {
           if (pkKey in object) object[pkKey] = "";
         });
       } else if (security === "encrypt") {
-        for (const pkKey of PKBasic) {
+        for (const pkKey of selectedSecurityLevel) {
           if (pkKey in object && typeof object[pkKey] === "string") {
             const encrypted = await encrypt(object[pkKey]);
             if (encrypted) object[pkKey] = encrypted.encryptedData;
@@ -75,12 +83,12 @@ export const addKey = async ({
       object[newKey] = keyValue;
       return object;
     }
+
     const path: string[] | undefined = nested?.split(".");
     let current: any = object;
 
     for (let i = 0; i < path!.length; i++) {
       const segment = path![i];
-
       const index = Number(segment);
       const isArrayIndex = !isNaN(index);
 
@@ -103,18 +111,20 @@ export const addKey = async ({
         current = current[segment];
       }
     }
+
     if (security === "strip") {
-      PKBasic.forEach((pkKey) => {
+      selectedSecurityLevel.forEach((pkKey) => {
         if (pkKey in current) current[pkKey] = "";
       });
     } else if (security === "encrypt") {
-      for (const pkKey of PKBasic) {
+      for (const pkKey of selectedSecurityLevel) {
         if (pkKey in current && typeof current[pkKey] === "string") {
           const encrypted = await encrypt(current[pkKey]);
           if (encrypted) current[pkKey] = encrypted.encryptedData;
         }
       }
     }
+
     current[newKey] = keyValue;
     return object;
   } catch (error) {
@@ -128,8 +138,13 @@ export const removeKey = async ({
   key,
   nested,
   security = "encrypt",
+  securityLevel = "basic",
 }: RemoveKeyParameters): Promise<Object | undefined> => {
   const PKBasic = getPKBasic();
+  const PKAdvanced = getPKAdvanced();
+
+  const selectedSecurityLevel: Set<string> =
+    securityLevel === "advanced" ? PKAdvanced : PKBasic;
   try {
     if (object === undefined || key === undefined) {
       console.warn("Warning: One of the passed values are not defined");
@@ -142,11 +157,11 @@ export const removeKey = async ({
 
     if (!nested) {
       if (security === "strip") {
-        PKBasic.forEach((pkKey) => {
+        selectedSecurityLevel.forEach((pkKey) => {
           if (pkKey in object) object[pkKey] = "";
         });
       } else if (security === "encrypt") {
-        for (const pkKey of PKBasic) {
+        for (const pkKey of selectedSecurityLevel) {
           if (pkKey in object && typeof object[pkKey] === "string") {
             const encrypted = await encrypt(object[pkKey]);
             if (encrypted) object[pkKey] = encrypted.encryptedData;
@@ -186,11 +201,11 @@ export const removeKey = async ({
     }
 
     if (security === "strip") {
-      PKBasic.forEach((pkKey) => {
+      selectedSecurityLevel.forEach((pkKey) => {
         if (pkKey in current) current[pkKey] = "";
       });
     } else if (security === "encrypt") {
-      for (const pkKey of PKBasic) {
+      for (const pkKey of selectedSecurityLevel) {
         if (pkKey in current && typeof current[pkKey] === "string") {
           const encrypted = await encrypt(current[pkKey]);
           if (encrypted) current[pkKey] = encrypted.encryptedData;
@@ -212,8 +227,13 @@ export const modifyKeyValue = async ({
   newValue,
   nested,
   security = "encrypt",
+  securityLevel = "basic",
 }: ModifyKeyParameters): Promise<Object | undefined> => {
   const PKBasic = getPKBasic();
+  const PKAdvanced = getPKAdvanced();
+
+  const selectedSecurityLevel: Set<string> =
+    securityLevel === "advanced" ? PKAdvanced : PKBasic;
 
   try {
     if (object === null || typeof object !== "object")
@@ -223,11 +243,11 @@ export const modifyKeyValue = async ({
 
     if (!nested) {
       if (security === "strip") {
-        PKBasic.forEach((pkKey) => {
+        selectedSecurityLevel.forEach((pkKey) => {
           if (pkKey in object) object[pkKey] = "";
         });
       } else if (security === "encrypt") {
-        for (const pkKey of PKBasic) {
+        for (const pkKey of selectedSecurityLevel) {
           if (pkKey in object && typeof object[pkKey] === "string") {
             const encrypted = await encrypt(object[pkKey]);
             if (encrypted) object[pkKey] = encrypted.encryptedData;
@@ -266,11 +286,11 @@ export const modifyKeyValue = async ({
       }
     }
     if (security === "strip") {
-      PKBasic.forEach((pkKey) => {
+      selectedSecurityLevel.forEach((pkKey) => {
         if (pkKey in object) object[pkKey] = "";
       });
     } else if (security === "encrypt") {
-      for (const pkKey of PKBasic) {
+      for (const pkKey of selectedSecurityLevel) {
         if (pkKey in target && typeof target[pkKey] === "string") {
           const encrypted = await encrypt(target[pkKey]);
           if (encrypted) target[pkKey] = encrypted.encryptedData;
@@ -290,8 +310,13 @@ export const renameKey = async ({
   newKey,
   nested,
   security = "encrypt",
+  securityLevel = "basic",
 }: RenameKeyParameters): Promise<Object | undefined> => {
   const PKBasic = getPKBasic();
+  const PKAdvanced = getPKAdvanced();
+
+  const selectedSecurityLevel: Set<string> =
+    securityLevel === "advanced" ? PKAdvanced : PKBasic;
   try {
     if (object === null || typeof object !== "object")
       throw new Error("Object must be defined and must be type of an object");
@@ -302,11 +327,11 @@ export const renameKey = async ({
 
     if (!nested) {
       if (security === "strip") {
-        PKBasic.forEach((pkKey) => {
+        selectedSecurityLevel.forEach((pkKey) => {
           if (pkKey in object) object[pkKey] = "";
         });
       } else if (security === "encrypt") {
-        for (const pkKey of PKBasic) {
+        for (const pkKey of selectedSecurityLevel) {
           if (pkKey in object && typeof object[pkKey] === "string") {
             const encrypted = await encrypt(object[pkKey]);
             if (encrypted) object[pkKey] = encrypted.encryptedData;
@@ -346,11 +371,11 @@ export const renameKey = async ({
       }
     }
     if (security === "strip") {
-      PKBasic.forEach((pkKey) => {
+      selectedSecurityLevel.forEach((pkKey) => {
         if (pkKey in object) object[pkKey] = "";
       });
     } else if (security === "encrypt") {
-      for (const pkKey of PKBasic) {
+      for (const pkKey of selectedSecurityLevel) {
         if (pkKey in target && typeof target[pkKey] === "string") {
           const encrypted = await encrypt(target[pkKey]);
           if (encrypted) target[pkKey] = encrypted.encryptedData;

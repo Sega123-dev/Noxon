@@ -1,6 +1,6 @@
 import { decryptText, encryptText } from "../@helpers/cryptoutils";
 import {
-  prohibitedKeys,
+  prohibitedKeysAdvanced,
   prohibitedKeysBasic,
 } from "../@helpers/prohibitedKeys";
 
@@ -23,8 +23,8 @@ export const decrypt = async ({
   return await decryptText(encryptedData, iv, key);
 };
 
-export const getPK = (): Set<string> => {
-  return prohibitedKeys;
+export const getPKAdvanced = (): Set<string> => {
+  return prohibitedKeysAdvanced;
 };
 
 export const getPKBasic = (): Set<string> => {
