@@ -18,7 +18,7 @@ Is a TypeScript-based library that provides advanced JSON manipulation features 
 - 🧪 Validate and compare JSON structures
 - 📦 Fetch and export JSON
 
-## Instalation
+## Installation
 
 All you need is:
 
