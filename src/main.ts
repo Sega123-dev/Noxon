@@ -73,5 +73,5 @@ await colormatic(
 `,
   "typescript",
   "#app",
-  "idea"
+  "base16-grayscale-light"
 );

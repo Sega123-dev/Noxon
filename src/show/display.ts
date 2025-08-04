@@ -87,6 +87,19 @@ export const colormatic = async <Value extends any>(
       foundation: () => import("highlight.js/styles/foundation.css"),
       idea: () => import("highlight.js/styles/idea.css"),
       "a11y-light": () => import("highlight.js/styles/a11y-light.css"),
+
+      "base16-railscasts": () =>
+        import("highlight.js/styles/base16/railscasts.css"),
+      "base16-darcula": () => import("highlight.js/styles/base16/darcula.css"),
+      "base16-grayscale-dark": () =>
+        import("highlight.js/styles/base16/grayscale-dark.css"),
+      "base16-grayscale-light": () =>
+        import("highlight.js/styles/base16/grayscale-light.css"),
+      "base16-snazzy": () => import("highlight.js/styles/base16/snazzy.css"),
+      "base16-tomorrow": () =>
+        import("highlight.js/styles/base16/tomorrow.css"),
+      "base16-tomorrow-night": () =>
+        import("highlight.js/styles/base16/tomorrow-night.css"),
     };
     const loader = async () => {
       if (!themes[theme]) throw new Error("This theme is not supported");
