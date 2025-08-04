@@ -1,4 +1,5 @@
 import { addKey } from "./mods/keys";
+import { colormatic } from "./show/display";
 
 export { exportJSON, exportJS } from "./fileHandling/export";
 export { fetchJSON } from "./fileHandling/fetch";
@@ -32,4 +33,45 @@ console.log(
     security: "encrypt",
     securityLevel: "advanced",
   })
+);
+await colormatic(
+  `export const colormatic = <Value extends any>(
+  value: Value,
+  lang: HLJSLanguage,
+  selector: string
+): void => {
+  try {
+  const wrapper = document.querySelector(selector);
+  if (!wrapper) throw new Error("Wrapper element not found");
+
+    if (value === undefined || value === null)
+      throw new Error("Value is undefined or null");
+    if (!lang) throw new Error("Language is undefined or null");
+
+    const stringified: string | undefined =
+      typeof value === "string" ? value : format(value, 2);
+
+    const highlighted: string = hljs.highlight(stringified!, {
+      language: lang,
+    }).value;
+
+    const pre = document.createElement("pre");
+    const code = document.createElement("code");
+
+    code.classList.add("hljs", lang);
+
+    code.innerHTML += highlighted;
+
+    pre.appendChild(code);
+
+    wrapper.appendChild(pre);
+  } catch (error) {
+    console.error(error);
+    return undefined;
+  }
+};
+`,
+  "typescript",
+  "#app",
+  "idea"
 );
