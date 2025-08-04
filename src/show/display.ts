@@ -6,7 +6,7 @@ import javascript from "highlight.js/lib/languages/javascript";
 import typescript from "highlight.js/lib/languages/typescript";
 import xml from "highlight.js/lib/languages/xml";
 import "highlight.js/styles/atom-one-light.min.css";
-import { themes } from "@helpers/themelib";
+import { themes } from "../@helpers/themelib";
 
 hljs.registerLanguage("javascript", javascript);
 hljs.registerLanguage("json", json);
