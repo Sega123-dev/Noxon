@@ -33,6 +33,20 @@ npm install noxon
 - React
 - XML
 
+## Usage
+
+You want to add a key into an object with maximum security? You can do it easily,just type:
+
+```
+  await addKey({
+    object: user,
+    newKey: "job",
+    keyValue: "software engineer",
+    security: "encrypt",
+    securityLevel: "advanced",
+  })
+```
+
 ## 📆Versions
 
 This library is currently in active development and will be released soon!
