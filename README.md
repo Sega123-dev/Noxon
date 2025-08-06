@@ -38,13 +38,20 @@ npm install noxon
 You want to add a key into an object with maximum security? You can do it easily,just type:
 
 ```
-  await addKey({
-    object: user,
-    newKey: "job",
-    keyValue: "software engineer",
-    security: "encrypt",
-    securityLevel: "advanced",
-  })
+import { addKey } from "noxon";
+
+const user = {
+  name: "Alice",
+  age: 30
+};
+
+await addKey({
+  object: user,
+  newKey: "job",
+  keyValue: "software engineer",
+  security: "encrypt",
+  securityLevel: "advanced",
+});
 ```
 
 ## 📆Versions
