@@ -37,7 +37,7 @@ npm install noxon
 
 You want to add a key into an object with maximum security? You can do it easily,just type:
 
-```
+```js
 import { addKey } from "noxon";
 
 const user = {
