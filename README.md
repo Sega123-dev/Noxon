@@ -56,7 +56,7 @@ await addKey({
 
 ## 📆Versions
 
-This library is currently in active development and will be released soon!
+*v1.0.0* - First stable release.
 
 ## 🤝Contributions
 
